@@ -16,28 +16,6 @@ public class EmpleadoDAO {//implements EmpleadoDAO{
         return con;
     }
 
-    public static boolean existeEmpleado(int numemp) {
-        String sql = "SELECT COUNT(*) FROM Empleados WHERE numemp = ?";
-        Connection conexion = conectar();
-
-
-
-        //funciona cuando numemp coincide con el calor proporcionado
-        try  {
-            PreparedStatement sentencia = conexion.prepareStatement(sql);
-            sentencia.setInt(1, numemp);
-            //se asigna numemp como parámetro de consulta, creo que esto es lo que pedía al final del ejercicio,
-            // pero no lo tengo muy claro. -->(campo a controlar "numemp")
-            ResultSet rs = sentencia.executeQuery();
-            if (rs.next()) {//next mueve cursor hacia delante . True hay fila disponible
-                return rs.getInt(1) >0;
-                //se que tengo que coger el valor de la primera columna...le he puesto el mayor a 0 por poner algo la verdad...
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex);
-        }
-        return false;
-    }
     //Método que inserta el empleado pasado como parámetro como un registro de la tabla Empleados.
 
 
