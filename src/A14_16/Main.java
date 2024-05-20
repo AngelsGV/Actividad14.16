@@ -9,7 +9,6 @@ import java.time.LocalDate;
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        EmpleadoDAO empleadoDAO = new EmpleadoDAOImpl();
 
         System.out.println("Vamos a insertar un empleado nuevo en la BD.");
         System.out.println("Introduzca el nombre: ");
@@ -27,17 +26,8 @@ public class Main {
         sc.nextLine();
         LocalDate fechaContrato = LocalDate.now();
 
-        Empleado nuevoEmpleado = new Empleado(numemp, nombre, edad, puesto, oficina, fechaContrato);
+        Empleado empleado = new Empleado(numemp, nombre, edad, puesto, oficina, fechaContrato);
 
-        if (!empleadoDAO.existeEmpleado(numemp)) {
-            boolean insercionExitosa = empleadoDAO.insertarEmpleado(nuevoEmpleado);
-            if (insercionExitosa) {
-                System.out.println("Se ha registrado empleado correctamente.");
-            } else {
-                System.out.println("Error al insertar empleado.");
-            }
-        } else {
-            System.out.println("El empleado ya existe en la base de datos.");
-        }
+        EmpleadoDAO.create(empleado);
     }
 }

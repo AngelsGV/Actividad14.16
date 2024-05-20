@@ -5,14 +5,30 @@ import java.sql.*;
 
 public class EmpleadoDAO {//implements EmpleadoDAO{
 
-    private static Connection conectar(){
+    private static Connection conectar() {
         Connection con = null;
         String url = "jdbc:mysql://localhost/Empresa";
-        try{
+        try {
             con = DriverManager.getConnection(url, "Pepe", "12345");
-        }catch(SQLException ex){
+        } catch (SQLException ex) {
             System.out.println(ex);
-        }return con;
+        }
+        return con;
+    }
+
+    public static boolean existeEmpleado(int numemp) {
+        String sql = "SELECT COUNT(*) FROM Empleados WHERE numemp = ?";
+        try (Connection conexion = conectar();
+             PreparedStatement sentencia = conexion.prepareStatement(sql)) {
+            sentencia.setInt(1, numemp);
+            ResultSet rs = sentencia.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return false;
     }
     //Método que inserta el empleado pasado como parámetro como un registro de la tabla Empleados.
 
@@ -41,20 +57,4 @@ public class EmpleadoDAO {//implements EmpleadoDAO{
             }
         }
     }
-//Lee los datos de empleado con clave id, construye un objeto Empleado y lo devuelve
-    public static Empleado read(int id) {
-        Empleado empleado = null;
-        String sql = "SELECT * FROM Empleados WHERE num = ?";
-        try{
-            Connection conexion = conectar();
-            PreparedStatement sentencia = conexion.prepareStatement(sql);
-            sentencia.setInt(1,id);//asignamos la clave a buscar
-            ResultSet rs = sentencia.executeQuery();
-            if(rs.next()){//si hay algún registro
-                int numemp = rs.getInt("numemp");
-                String nombre = rs.getString("nombre");
-                int edad = rs.getInt("edad")
-
-            }
-        }
 }
